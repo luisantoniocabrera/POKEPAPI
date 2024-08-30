@@ -1,0 +1,31 @@
+function pokemonList() {
+    fetch("https://pokeapi.co/api/v2/pokemon?limit=150")
+    .then(response => response.json())
+    .then(data => {
+        data.results.forEach(pokemon => {
+            let capitalizedPokemonName = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+            console.log(capitalizedPokemonName);
+        });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+pokemonList();
+function getPokemonDetails(pokemonName) {
+    fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`)
+    .then(response => response.json())
+    .then(data => {
+        console.log(`Nombre: ${data.name.charAt(0).toUpperCase() + data.name.slice(1)}`);
+        console.log(`Tipo(s): ${data.types.map(typeInfo => typeInfo.type.name).join(', ')}`);
+        console.log(`Habilidades: ${data.abilities.map(abilityInfo => abilityInfo.ability.name).join(', ')}`);
+        console.log(`Stats:`);
+        data.stats.forEach(stat => {
+            console.log(`  ${stat.stat.name}: ${stat.base_stat}`);
+        });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
